@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
 
 {% block body %}
-<h1>extended!!!</h1>
-<h2>hello {{ test }}</h2>
-<h2>hello {{ sample }}</h2>
-<h2>{{ version }}</h2>
+<h1>データ送信処理（GET）</h1>
+    <form action="/result" method="GET" autocomplete="off">
+        <label for="name1">解析したい用語を入力してください</label>
+        <input type="text" name="name" id='name1'>
+        <input type="submit" value="GET">
+    </form>
 {% endblock %}

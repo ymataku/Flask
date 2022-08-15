@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template,request
 import numpy as np
 import json
 import requests
@@ -6,7 +6,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 
 # vec1 = np.array([1,2,3])
 app = Flask(__name__)
-def ConnectCotoha():
+def ConnectCotoha(param):
     # https://api.ce-cotoha.com/home の
     # Client ID って書いてあるところにあるやつ
     client_id     = 'PYt5RmFrK9Gprd3g0rOXcRem274cxN3W'
@@ -31,7 +31,7 @@ def ConnectCotoha():
     access_token = response['access_token']
     # print(access_token)
 
-    sentence = 'すもももももももものうち'
+    sentence = param
     url = 'https://api.ce-cotoha.com/api/dev/nlp/v1/parse'
     headers = {
         'Content-Type': 'application/json;charset=UTF-8',
@@ -50,23 +50,25 @@ def ConnectCotoha():
     return response
         
 
-@app.route('/', methods=['GET', 'POST']) 
+@app.route('/') 
 def index():
-    sample = np.array(['Apple computer of the apple mark', 'linux computer', 'windows computer'])
-    vec_count = CountVectorizer()
-    vec_count.fit(sample)
-    X = vec_count.transform(sample)
-    vector = X.toarray()
+    return render_template('index.html')
 
-    test = 'hello world'
-    res = ConnectCotoha()
-    sample = res['result'][0]['tokens'][0]['form']
-    version = vector[0]
-    return render_template('index.html',test = test,sample = sample,version = version)
+@app.route("/result", methods=['GET'])
+def result():
+    # sample = np.array(['Apple computer of the apple mark', 'linux computer', 'windows computer'])
+    # vec_count = CountVectorizer()
+    # vec_count.fit(sample)
+    # X = vec_count.transform(sample)
+    # vector = X.toarray()
+    sample = []
+    name = request.args['name']
+    result = ConnectCotoha(name)
+    for i in result['result']:
+        for j in i['tokens']:
+            sample.append(j['form'])
 
-@app.route("/create")
-def create():
-    return render_template('test.html')
+    return render_template('test.html',sample = sample)
 
 if __name__ == "__main__":
     app.run(debug=True)

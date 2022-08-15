@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
 {% block body %}
-<h1>create!!!</h1>
+{% for i in sample %}
+	<p>{{ i }} </p><br>
+{% endfor %}
 {% endblock %}
