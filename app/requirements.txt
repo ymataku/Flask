@@ -1,0 +1,4 @@
+flask==2.0.1
+numpy
+requests
+scikit-learn
