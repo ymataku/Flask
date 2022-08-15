@@ -7,6 +7,7 @@ ENV FLASK_DEBUG 1
 
 COPY /app/requirements.txt ./
 
+RUN curl https://cli-assets.heroku.com/install.sh | sh
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
