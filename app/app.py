@@ -6,6 +6,7 @@ from sklearn.feature_extraction.text import CountVectorizer
 import json
 import requests
 from greeting import Hello 
+import MeCab
 # from function import Cotoha 
 token = ""
 # vec1 = np.array([1,2,3])
@@ -34,52 +35,20 @@ def ConnectCotoha():
 
     access_token = response['access_token']
     return access_token
-   # print(access_token)
-def kaiseki(access_token,param):
-     sentence = param
-     url = 'https://api.ce-cotoha.com/api/dev/nlp/v1/parse'
-     headers = {
-         'Content-Type': 'application/json;charset=UTF-8',
-         'Authorization': f'Bearer {access_token}'
-     }
 
-     data = json.dumps({
-         'sentence': sentence
-     })
-     with requests.post(url, headers=headers, data=data) as req:
-         response = req.json()
-    # 分かち書き
-    # for i in response['result']:
-    #     for j in i['tokens']:
-    #         print(j['form'])
-     return response
 
 token = ConnectCotoha()   
 @app.route('/') 
 def index():
-    
-    title = token
-    return render_template('index.html',title = title)
+    return render_template('index.html')
 
 @app.route("/result", methods=['GET'])
 def result():
-    # sample = np.array(['Apple computer of the apple mark', 'linux computer', 'windows computer'])
-    # vec_count = CountVectorizer()
-    # vec_count.fit(sample)
-    # X = vec_count.transform(sample)
-    # vector = X.toarray()
     sample = []
-    name = request.args['name']
-    # result = ConnectCotoha(name)
-    print("check1")
-    result = kaiseki(token,name)
-    print("check2")
-    print(result)
-    for i in result['result']:
-        for j in i['tokens']:
-            sample.append(j['form'])
-
+    for i in range(0,3):
+        name = request.args['name']
+        wakati = MeCab.Tagger("-Owakati")
+        sample.append(wakati.parse(name).split())
     return render_template('test.html',sample = sample)
-
 if __name__ == "__main__":
     app.run(debug=True)
