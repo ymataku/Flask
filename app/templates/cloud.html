@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block body %}
+<h1>クラウドタグ</h1>
+    <form action="/cloud" method="POST" autocomplete="off" enctype="multipart/form-data">
+        <label for="name1">解析したい用語を入力してください</label>
+        <input type="text" name="text" id='name1'>
+        <input type="file" id="file" name="file">
+        <input type="submit" value="解析">
+    
+    </form>
+{% endblock body%}

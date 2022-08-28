@@ -5,3 +5,4 @@ scikit-learn
 gunicorn
 mecab-python3
 unidic-lite
+wordcloud

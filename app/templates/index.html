@@ -1,7 +1,9 @@
 {% extends 'base.html' %}
+
 {% block head %}
 <link rel="stylesheet" href="../static/css/index.css">
-{% endblock %}
+{% endblock%}
+
 {% block body %}
 <h1>形態素解析</h1>
 <p>{{ title }}</p>
@@ -10,4 +12,5 @@
         <input type="text" name="name" id='name1'>
         <input type="submit" value="解析">
     </form>
+<img src="../static/img/wordcloud.png">
 {% endblock %}

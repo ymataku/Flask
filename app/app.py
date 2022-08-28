@@ -1,16 +1,14 @@
 from flask import Flask, render_template,request
 import numpy as np
-
+from wordcloud import WordCloud
 from sklearn.feature_extraction.text import CountVectorizer
-# token = ""
 import json
 import requests
 from greeting import Hello 
 import MeCab
-# from function import Cotoha 
 token = ""
-# vec1 = np.array([1,2,3])
-app = Flask(__name__)
+
+app = Flask(__name__,static_folder='./static')
 def ConnectCotoha():
     # https://api.ce-cotoha.com/home の
     # Client ID って書いてあるところにあるやつ
@@ -36,6 +34,20 @@ def ConnectCotoha():
     access_token = response['access_token']
     return access_token
 
+def parse(res):
+    m = MeCab.Tagger()
+    word=""
+    # sample = []
+    node = m.parseToNode(res)
+    while node:
+        hinshi = node.feature.split(",")[0]
+        # sample.append(node.feature.split(","))
+        if hinshi in ["名詞","動詞","形容詞"]:
+            origin = node.feature.split(",")[6]
+            word = word + " " + origin
+        node = node.next
+    return word
+
 
 token = ConnectCotoha()   
 @app.route('/') 
@@ -45,10 +57,44 @@ def index():
 @app.route("/result", methods=['GET'])
 def result():
     sample = []
-    for i in range(0,3):
-        name = request.args['name']
-        wakati = MeCab.Tagger("-Owakati")
-        sample.append(wakati.parse(name).split())
-    return render_template('test.html',sample = sample)
+    sample2 = []
+    sample3 = []
+    index = 0
+    name = request.args['name']
+    mecab = MeCab.Tagger()
+    sample.append(mecab.parse(name).split("\n"))
+    for i in sample[0]:
+        sample2.append(i.split('\t'))
+    
+    while sample2[index][0] != "EOS":
+        sample3.append({"word":sample2[index][0],"pos":sample2[index][4]})
+        index = index + 1
+    return render_template('test.html',sample = sample,sample2 = sample2,sample3 = sample3)
+
+@app.route('/cloud',methods=['GET'])
+def make():
+    return render_template('cloud.html')
+
+@app.route("/cloud", methods=['POST'])
+def cloud():
+    res =  request.form['text']
+    f = request.files.get('file')
+    data = f.getvalue().decode("utf-8")
+    if res == "":
+        res = data
+    font_path_gothic = './font/ipag.ttf'
+    wordcloud = WordCloud(width=600,height=400,min_font_size=15,font_path=font_path_gothic)
+    try:
+        wordcloud.generate(parse(res))
+        wordcloud.to_file("./static/img/wordcloud.png")
+    except:
+        return render_template('error.html',error=parse(res))
+    return render_template('cloud_result.html')
+
+
+
+
+
+
 if __name__ == "__main__":
     app.run(debug=True)

@@ -1,7 +1,10 @@
 {% extends 'base.html' %}
-
+{% block head %}
+<script src="../static/javascript/test.js"></script>
+{% endblock head%}
 {% block body %}
-{% for i in sample%}
-<p>{{ i }}</p>
+{% for i in sample3 %}
+<p>{{ i['word'] }} : {{ i['pos']}}</p>
 {% endfor %}
+<button onclick="back()" class="btn btn-primary">戻る</button>
 {% endblock %}
