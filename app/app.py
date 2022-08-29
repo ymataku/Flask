@@ -6,9 +6,25 @@ import json
 import requests
 from greeting import Hello 
 import MeCab
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import db
+
 token = ""
 
 app = Flask(__name__,static_folder='./static')
+#firebaseの接続設定
+cred = credentials.Certificate('./db-test-63ae0-firebase-adminsdk-id4g0-7f9f362c75.json')
+
+firebase_admin.initialize_app(cred, {
+    'databaseURL': 'https://db-test-63ae0-default-rtdb.firebaseio.com/',
+    'databaseAuthVariableOverride': {
+        'uid': '111279736261474156340'
+    }
+})
+
+users_ref = db.reference('/users')
+
 def ConnectCotoha():
     # https://api.ce-cotoha.com/home の
     # Client ID って書いてあるところにあるやつ
@@ -90,6 +106,24 @@ def cloud():
     except:
         return render_template('error.html',error=parse(res))
     return render_template('cloud_result.html')
+
+@app.route('/db',methods=['GET'])
+def form():
+    return render_template('db.html')
+
+@app.route('/db',methods=['POST'])
+def post():
+    name = request.form['name']
+    age = request.form['age']
+    # databaseにデータを追加する
+    users_ref.child(name).set({
+        'age': age,
+        })
+
+@app.route('/other')
+def other():
+    return 'Other World\n'
+  
 
 
 
