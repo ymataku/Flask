@@ -109,7 +109,8 @@ def cloud():
 
 @app.route('/db',methods=['GET'])
 def form():
-    return render_template('db.html')
+    title = "ng"
+    return render_template('db.html',title = title)
 
 @app.route('/db',methods=['POST'])
 def post():
@@ -119,16 +120,13 @@ def post():
     users_ref.child(name).set({
         'age': age,
         })
+    title = "OK"
+    return render_template('db.html',title = title)
 
 @app.route('/other')
 def other():
     return 'Other World\n'
   
-
-
-
-
-
 
 if __name__ == "__main__":
     app.run(debug=True)
