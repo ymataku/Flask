@@ -37,16 +37,19 @@ def ConnectCotoha():
 def parse(res):
     m = MeCab.Tagger()
     word=""
-    # sample = []
+    test = []
     node = m.parseToNode(res)
     while node:
         hinshi = node.feature.split(",")[0]
-        # sample.append(node.feature.split(","))
-        if hinshi in ["名詞","動詞","形容詞"]:
-            origin = node.feature.split(",")[6]
-            word = word + " " + origin
+        try:
+            if hinshi in ["名詞","形容詞"]:
+                origin = node.feature.split(",")[8]
+                test.append(node.feature.split(","))
+                word = word + " " + origin
+        except:
+            test.append(node.feature.split(","))
         node = node.next
-    return word
+    return word,test
 
 
 token = ConnectCotoha()   
@@ -83,18 +86,14 @@ def cloud():
     if res == "":
         res = data
     font_path_gothic = './font/ipag.ttf'
-    wordcloud = WordCloud(width=600,height=400,min_font_size=15,font_path=font_path_gothic)
+    wordcloud = WordCloud(background_color="white", width=600,height=400,min_font_size=15,font_path=font_path_gothic)
+    word,test = parse(res)
     try:
-        wordcloud.generate(parse(res))
+        wordcloud.generate(word)
         wordcloud.to_file("./static/img/wordcloud.png")
     except:
         return render_template('error.html',error=parse(res))
     return render_template('cloud_result.html')
-
-
-
-
-
 
 if __name__ == "__main__":
     app.run(debug=True)
