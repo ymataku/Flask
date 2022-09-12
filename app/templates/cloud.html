@@ -9,4 +9,13 @@
         <input type="submit" value="解析">
     
     </form>
+
+<h1>グラフ</h1>
+    <form action="/graph" method="POST" autocomplete="off" enctype="multipart/form-data">
+        <label for="name1">解析したい用語を入力してください</label>
+        <input type="text" name="text" id='name1'>
+        <input type="file" id="file" name="file">
+        <input type="submit" value="解析">
+    
+    </form>
 {% endblock body%}

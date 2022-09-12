@@ -37,33 +37,33 @@ def ConnectCotoha():
 def parse(res):
     m = MeCab.Tagger()
     word=""
-    test = []
     node = m.parseToNode(res)
     while node:
         hinshi = node.feature.split(",")[0]
         try:
             if hinshi in ["名詞","形容詞"]:
                 origin = node.feature.split(",")[8]
-                test.append(node.feature.split(","))
                 word = word + " " + origin
+                       
         except:
-            test.append(node.feature.split(","))
+            # test.append(node.feature.split(","))
+            print("error")
         node = node.next
-    return word,test
+    return word
 
 
 token = ConnectCotoha()   
-@app.route('/') 
+@app.route('/',methods=['GET']) 
 def index():
     return render_template('index.html')
 
-@app.route("/result", methods=['GET'])
+@app.route("/", methods=['POST'])
 def result():
     sample = []
     sample2 = []
     sample3 = []
     index = 0
-    name = request.args['name']
+    name = request.form['name']
     mecab = MeCab.Tagger()
     sample.append(mecab.parse(name).split("\n"))
     for i in sample[0]:
@@ -87,13 +87,27 @@ def cloud():
         res = data
     font_path_gothic = './font/ipag.ttf'
     wordcloud = WordCloud(background_color="white", width=600,height=400,min_font_size=15,font_path=font_path_gothic)
-    word,test = parse(res)
+    word = parse(res)
     try:
         wordcloud.generate(word)
         wordcloud.to_file("./static/img/wordcloud.png")
     except:
         return render_template('error.html',error=parse(res))
     return render_template('cloud_result.html')
+
+@app.route('/graph',methods=['POST'])
+def graph():
+    res = request.form['text']
+    f = request.files.get('file')
+    data = f.getvalue().decode("utf-8")
+    if res == "":
+        res = data
+    word = parse(res)
+    test = word.split(" ")
+    return render_template('graph.html',test = test)
+
+    
+
 
 if __name__ == "__main__":
     app.run(debug=True)
