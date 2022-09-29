@@ -2,6 +2,7 @@ version: "3"
 services:
   app:
     build: .
+    image: flask-image
     container_name: flask-app
     ports:
       - "5001:5000"

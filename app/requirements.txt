@@ -3,6 +3,5 @@ numpy
 requests
 scikit-learn
 uWSGI
-mecab-python3
-unidic-lite
+janome
 wordcloud
