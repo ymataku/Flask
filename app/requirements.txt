@@ -6,4 +6,3 @@ uWSGI
 mecab-python3
 unidic-lite
 wordcloud
-firebase-admin

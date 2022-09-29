@@ -3,10 +3,16 @@ services:
   app:
     build: .
     container_name: flask-app
+    ports:
+      - "5001:5000"
+  
     volumes:
       - ./app:/usr/src/app
-      - socket:/tmp
-    command: uwsgi --ini app.ini
+      # - socket:/tmp
+    # command: uwsgi --ini app.ini
+    # command: uwsgi ./app/app
+    command: flask run --host=0.0.0.0
+    # command: uwsgi --http=0.0.0.0:8080 --wsgi-file=wsgi.py  --callable=app
 
   web:
     image: nginx:latest
