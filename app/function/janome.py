@@ -6,8 +6,8 @@ def janome_kaiseki(string):
     s = string
     return [token.surface for token in t.tokenize(s)if token.part_of_speech.startswith('名詞')]
 
-def test(string):
+def calc_frequency_word(string):dict
     t = Tokenizer()
     s = string
     c = collections.Counter(t.tokenize(s, wakati=True))
-    return dict(c)
+    return c

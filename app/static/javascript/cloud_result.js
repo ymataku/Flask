@@ -13,11 +13,6 @@ for(let i = 0;i < svg_text.length;i++){
         function(e){
             word = svg_text[i].textContent
             panel.style.display = "block"
-            // console.log(panel.firstChild)
-            // console.log(panel.children)
-            
-            // panel.getElementById('count').innerText = 10
-        
             $.ajax({
                 // 読み込みの設定
                 type: "GET",

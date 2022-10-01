@@ -2,12 +2,13 @@ from flask import Flask, render_template,request
 import json
 import requests
 from function.janome import janome_kaiseki
-from function.janome import test
+from function.janome import calc_frequency_word
 from function.wordcloud import create_wordcloud_svg
 import json
 
 app = Flask(__name__,static_folder='./static')
 
+# janomeからの返り値を文字列に直す
 def list_to_string(word_list):
     word = ""
     for i in word_list:
@@ -25,14 +26,22 @@ def cloud_post():
     data = f.getvalue().decode("utf-8")
     if not res:
         res = data
+    
+    # wordcloudをsvgで作成----------------------------------------
+    # janome.pyファイルで形態素解析をしたものをリストで出力
     word_list = janome_kaiseki(res)
     word = list_to_string(word_list)
     tag_svg = create_wordcloud_svg(word)
-    a = test(word)
+    # -----------------------------------------------------------
+
+
+    # jsonファイルに単語の出現頻度を出力----------------------------
+    word_frequency_dic = calc_frequency_word(word)
     with open("static/file/data.json","w",encoding='utf-8') as f:
         json.dump(a, f, indent=2, ensure_ascii=False)
-       
-    return render_template('cloud_result.html',tag = tag_svg,test = a,ensure_ascii=False)
+    # ------------------------------------------------------------
+
+    return render_template('cloud_result.html',tag = tag_svg,test = word_frequency_dic)
 
 if __name__ == "__main__":
     app.run(debug=True)
