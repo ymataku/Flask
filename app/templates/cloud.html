@@ -1,12 +1,20 @@
 {% extends 'base.html' %}
 
+{% block head %}
+    <link rel="stylesheet" href="../static/css/cloud.css">
+{% endblock head %}
 {% block body %}
-<h1>クラウドタグ</h1>
     <form action="/" method="POST" autocomplete="off" enctype="multipart/form-data">
-        <label for="name1">解析したい用語を入力してください</label>
-        <input type="text" name="text" id='name1'>
-        <input type="file" id="file" name="file">
-        <input type="submit" value="解析">
-    
+        <label id="file_label">
+            <span id="icon"> <i class="bi bi-file-earmark-font" style="width: 130px; height: 130px;"></i></span>
+           <input type="file" id="file" name="file" value="file">
+        </label>
+       
+        <textarea name="text" id='text' placeholder="解析したい用語文章を入力してください"></textarea>
+        <input type="submit" id="btn" value="解析">
     </form>
+<div class="tooltipBlock">
+    <p id="toolTip">ツールチップです。</p>
+</div>
+    <script src="../static/javascript/cloud.js"></script>
 {% endblock body%}
