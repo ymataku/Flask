@@ -26,10 +26,15 @@ def cloud_post():
     data = f.getvalue().decode("utf-8")
     if not res:
         res = data
-    
+
+    if(res):
+        return render_template('./error.html',err = "ちんこ")
+        
     # wordcloudをsvgで作成----------------------------------------
     # janome.pyファイルで形態素解析をしたものをリストで出力
     word_list = janome_kaiseki(res)
+    if(word):
+        return render_template('./error.html',err = "ちんこ")
     word = list_to_string(word_list)
     tag_svg = create_wordcloud_svg(word)
     # -----------------------------------------------------------

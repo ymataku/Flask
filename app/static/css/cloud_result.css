@@ -2,6 +2,10 @@
 .svg:hover{
     opacity: 0.5;
 }
+svg{
+    margin:10px 100px 10px 100px;
+}
+
 #panel{
     display: none;
     position: absolute;
@@ -24,6 +28,3 @@
     border-top: 8px solid #545454;
 }
 
-#test{
-    display: none;
-}
