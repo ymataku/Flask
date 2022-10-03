@@ -22,6 +22,7 @@ def cloud_get():
 @app.route("/", methods=['POST'])
 def cloud_post():
     res =  request.form['text']
+    hinsi = request.form['hinsi']
     f = request.files.get('file')
     data = f.getvalue().decode("utf-8")
     if not res:
@@ -29,10 +30,9 @@ def cloud_post():
 
     if not res:
         return render_template('./error.html',err = "ちんこ")
-
     # wordcloudをsvgで作成----------------------------------------
     # janome.pyファイルで形態素解析をしたものをリストで出力
-    word_list = janome_kaiseki(res)
+    word_list = janome_kaiseki(res,hinsi)
     word = list_to_string(word_list)
     if not word:
         return render_template('./error.html',err = "ちんこ")

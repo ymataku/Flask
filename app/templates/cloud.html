@@ -5,11 +5,12 @@
 {% endblock head %}
 {% block body %}
     <form action="/" method="POST" autocomplete="off" enctype="multipart/form-data">
+        <label for="text">品詞の入力：</label>
+        <input type="text" name="hinsi" id="hinsi"><br>
         <label id="file_label">
             <span id="icon"> <i class="bi bi-file-earmark-font" style="width: 130px; height: 130px;"></i></span>
            <input type="file" id="file" name="file" value="file">
         </label>
-       
         <textarea name="text" id='text' placeholder="解析したい用語文章を入力してください"></textarea>
         <input type="submit" id="btn" value="解析">
     </form>
