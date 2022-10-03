@@ -17,8 +17,8 @@ for(let i = 0;i < svg_text.length;i++){
                 res.data.text().then(str => {
                     console.log("読み込みに成功しました");
                     let json = JSON.parse(str)
-                    panel.children[0].innerText =  word
-                    panel.children[1].innerText = json[word]
+                    panel.children[0].innerText = "ワード:" + word
+                    panel.children[1].innerText = "個数" + json[word]
                     panel.style.left =  e.clientX;
                     panel.style.top = e.clientY;
                 })

@@ -3,7 +3,9 @@
 <link rel="stylesheet" href="../static/css/cloud_result.css">
 {% endblock head %}
 {% block body %}
-{{ tag | safe }}
+<div class="test">
+    {{ tag | safe }}
+</div>
 <div id="panel">
     <p id="label"></p>
     <p id="count"></p>
