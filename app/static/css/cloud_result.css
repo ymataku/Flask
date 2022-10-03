@@ -1,0 +1,29 @@
+
+.svg:hover{
+    opacity: 0.5;
+}
+.test{
+    padding: 10px 30px 30px 30px;
+}
+
+#panel{
+    display: none;
+    position: absolute;
+    width: 150px;
+    height: 120px;
+    padding: 10px 5px 10px 5px;
+    color:#fff;
+    background-color: #545454;
+    z-index: 1;
+    border-radius: 3px;
+    filter: drop-shadow(0px 1px 4px #aaa);
+}
+#panel:before{
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 40%;
+    border: 8px solid transparent;
+    border-top: 8px solid #545454;
+}
+

@@ -2,7 +2,6 @@ flask==2.0.1
 numpy
 requests
 scikit-learn
-gunicorn
-mecab-python3
-unidic-lite
+uWSGI
+janome
 wordcloud
