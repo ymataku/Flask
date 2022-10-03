@@ -9,11 +9,11 @@ services:
   
     volumes:
       - ./app:/usr/src/app
-      # - socket:/tmp
-    # command: uwsgi --ini app.ini
-    # command: uwsgi ./app/app
-    command: flask run --host=0.0.0.0
-    # command: uwsgi --http=0.0.0.0:8080 --wsgi-file=wsgi.py  --callable=app
+      - socket:/tmp
+    #uwsgiでアプリを起動するコマンド
+    command: uwsgi --ini app.ini
+    # flaskでアプリを起動するコマンド
+    # command: flask run --host=0.0.0.0
 
   web:
     image: nginx:latest
