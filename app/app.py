@@ -38,7 +38,7 @@ def cloud_post():
     # jsonファイルに単語の出現頻度を出力----------------------------
     word_frequency_dic = calc_frequency_word(word)
     with open("static/file/data.json","w",encoding='utf-8') as f:
-        json.dump(a, f, indent=2, ensure_ascii=False)
+        json.dump(word_frequency_dic, f, indent=2, ensure_ascii=False)
     # ------------------------------------------------------------
 
     return render_template('cloud_result.html',tag = tag_svg,test = word_frequency_dic)

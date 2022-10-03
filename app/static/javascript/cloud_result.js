@@ -3,9 +3,6 @@ const panel = document.getElementById('panel')
 const test = document.getElementById('test')
 svg_text = svg.getElementsByTagName("text")
 
-// console.log(typeof(JSON.parse(test.innerText)))
-
-// console.log(svg.getElementsByTagName("text")[0].textContent)
 for(let i = 0;i < svg_text.length;i++){
     svg_text[i].classList.add("svg")
     svg_text[i].addEventListener(
@@ -13,31 +10,23 @@ for(let i = 0;i < svg_text.length;i++){
         function(e){
             word = svg_text[i].textContent
             panel.style.display = "block"
-            $.ajax({
-                // 読み込みの設定
-                type: "GET",
-                url: "/static/file/data.json", // ファイルパス（相対パス）
-                dataType: "json", // ファイル形式
-                async: false // 非同期通信フラグ
-            }).then(
-                function (json) {
-                    // 読み込み成功時の処理
+            //axiosでバクエンドよりデータを取得------------------------------------
+            const option = {responseType: "blob"}
+            axios.get('/static/file/data.json',option).then(res => {
+                //返ってきたデータをjsonに変換
+                res.data.text().then(str => {
                     console.log("読み込みに成功しました");
-                    // console.log(json)
-                    // console.log(json[word])
+                    let json = JSON.parse(str)
                     panel.children[0].innerText = word
                     panel.children[1].innerText = json[word]
                     panel.style.left =  e.clientX;
                     panel.style.top = e.clientY;
-                    // json.forEach(function (data) {
-                    //     console.log(data)
-                    // });
-                },
-                function () {
-                    // 読み込み失敗時の処理
-                    console.log("読み込みに失敗しました");
-                }
-            );
+                })
+            //--------------------------------------------------------------------
+               
+            }).catch(e => {
+                console.log(e)
+            })
         }
     )
     svg_text[i].addEventListener(
