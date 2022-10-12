@@ -5,7 +5,7 @@ WORKDIR /usr/src/app
 ENV FLASK_APP=app
 ENV FLASK_DEBUG 1
 
-COPY /app/requirements.txt ./
+COPY /requirements.txt ./
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 
