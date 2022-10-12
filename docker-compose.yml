@@ -6,7 +6,6 @@ services:
     container_name: flask-app
     ports:
       - "5001:5000"
-  
     volumes:
       - ./app:/usr/src/app
       - socket:/tmp
