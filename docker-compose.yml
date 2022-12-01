@@ -4,13 +4,15 @@ services:
     build: ./app/
     image: flask-image
     container_name: flask-app
+    ports:
+      - "80:5000"
     volumes:
       - ./app:/usr/src/app
       - socket:/tmp
     #uwsgiでアプリを起動するコマンド
-    command: uwsgi --ini app.ini
+    # command: uwsgi --ini app.ini
     # flaskでアプリを起動するコマンド
-    # command: flask run --host=0.0.0.0
+    command: flask run --host=0.0.0.0
 
   web:
     image: nginx:latest
